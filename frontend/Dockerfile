@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:20.17
 
 LABEL author="Pablo Molina <pablo.molina@alumnos.uv.cl>"
 
