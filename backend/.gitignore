@@ -1,0 +1,8 @@
+# Ignorar node_modules
+/node_modules
+
+# Ignorar cualquier archivo .json dentro de src/
+/src/*.json
+
+# Ignorar archivos generados automáticamente
+/src/scripts/__pycache__/*.pyc
