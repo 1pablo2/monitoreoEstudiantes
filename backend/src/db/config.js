@@ -5,7 +5,7 @@ const sequelize = new Sequelize(
   "root",
   "1234",
   {
-    host: "localhost",
+    host: "db",
     port: "3306",
     dialect: "mysql",
 });
@@ -14,7 +14,7 @@ const syncDatabase = async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    await sequelize.sync(); // No uses force: true en producción, solo para desarrollo
+    //await sequelize.sync(); // No uses force: true en producción, solo para desarrollo
     console.log("Database synchronized successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
