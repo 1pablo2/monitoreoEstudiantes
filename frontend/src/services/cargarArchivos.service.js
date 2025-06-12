@@ -1,3 +1,5 @@
+const API_URL = process.env.REACT_APP_API_URL+"cargarArchivos";
+
 export const uploadFiles = async (files) => {
     const formData = new FormData();
     files.forEach(file => {
@@ -24,7 +26,7 @@ export const uploadFiles = async (files) => {
     const scriptsParam = Array.from(scriptIds).join(',');
 
     try {
-        const response = await fetch(`http://localhost:8000/cargarArchivos?scripts=${scriptsParam}`, {
+        const response = await fetch(`${API_URL}?scripts=${scriptsParam}`, {
             method: 'POST',
             body: formData,
         });

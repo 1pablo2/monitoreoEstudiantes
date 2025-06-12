@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/matriculado";
+const API_URL = process.env.REACT_APP_API_URL+"matriculado";
 
 export const obtenerCohortes = async () => {
     try {
