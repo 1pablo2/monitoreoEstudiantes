@@ -1,15 +1,46 @@
-1.- APP
-2.- App.use como este app.use('/usuario', rutaUsuario)
-3.- En el caso anterior iremos a la ruta de usuario
-4.- Ahora podemos ir a cualquiera de esas rutas de usuario
-5.- se va a la funcion asignada de los usuarios
-6.- Datos
-    Siempre ocupar un try catch para las funciones
-    Los req.params ocuparlos en caso de eliminacion o actualizacion o obtencion de informacion mediante un id
-    Los req.query ocuparlos para filtrar o paginar informacion
-    El req.body ocuparlo en caso de enviar informacion mas contundente al backend como json
+# Backend - Monitoreo de Estudiantes (segpreg)
 
-    {
-        "nombre":"TEst",
-        "key":"values"
-    }
+## Tecnologias
+- Node.js 20 (imagen `node:20-slim`)
+- Express
+- Sequelize ORM
+- MySQL
+- Python 3
+- Pandas, xlrd, openpyxl (librerías de Python)
+
+## Instalacion local (sin Docker)
+### Requisitos:
+
+- Node.js 20+
+- MySQL
+- Python 3 con pip y las siguientes librerías:
+
+```bash
+pip install pandas openpyxl xlrd mysql-connector-python
+```
+### Pasos:
+1 Instala dependencias:
+```bash
+npm install
+```
+2 Configura la conexión a la base de datos en src/db/config.js.
+
+3 Inicia el servidor:
+
+```bash
+npm start
+```
+
+## Uso con docker
+1. Construir
+```bash
+    docker compose build
+```
+2. Levantar los servicios
+```bash
+ docker compose up
+```
+3. Apagar los servicios
+```bash
+ docker compose down
+```
