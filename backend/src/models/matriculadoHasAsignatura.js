@@ -72,7 +72,7 @@ const MatriculadoHasAsignatura = sequelize.define(
     },
   },
   {
-    tableName: "Matriculado_has_Asignatura",
+    tableName: "matriculado_has_asignatura",
     timestamps: false,
   }
 );

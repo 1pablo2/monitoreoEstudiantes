@@ -39,7 +39,7 @@ const Matriculado = sequelize.define(
     } 
   },
   {
-    tableName: "Matriculado",
+    tableName: "matriculado",
     timestamps: false,
   }
 );
