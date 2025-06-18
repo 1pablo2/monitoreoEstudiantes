@@ -11,15 +11,24 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'DELETE'],
-}));
+const environment = process.env.NODE_ENV
 
-app.set("env", "development");
+app.set("env", environment);
 app.set("port", 8000);
 
-app.use(morgan("dev"));
+if (environment === "development") {
+  app.use(morgan("dev"));
+  app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  }));
+} else {
+    app.use(cors({
+    origin: 'https://segpreg.informatica.uv.cl',
+    methods: ['GET', 'POST'],
+  }));
+}
+
 app.use(express.json({ limit: "50MB" }));
 app.use(express.urlencoded({ extended: true }));
 
