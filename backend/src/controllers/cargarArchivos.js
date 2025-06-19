@@ -7,6 +7,17 @@ import { guardarFechaActualizacion } from './fechaActualizacion.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const allowedExtensions = ['.xls', '.xlsx'];
+const allowedMimeTypes = [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel'
+];
+
+const safeFileName = (name) => {
+    return name.replace(/[^\w.-]/g, '_');
+};
+
 const cargarArchivos = (req, res) => {
     const { scripts } = req.query;
 
@@ -47,7 +58,20 @@ const cargarArchivos = (req, res) => {
     const savedFiles = [];
     try {
         files.forEach(file => {
-            const tempFilePath = join(tempDir, file.originalname);
+            const extension = '.' + file.originalname.split('.').pop().toLowerCase();
+            const mimeType = file.mimetype;
+
+            if (!allowedExtensions.includes(extension) || !allowedMimeTypes.includes(mimeType)) {
+                throw new Error(`Archivo no permitido: ${file.originalname}`);
+            }
+
+            if (file.size > MAX_FILE_SIZE) {
+                throw new Error(`El archivo ${file.originalname} excede el tamaño máximo permitido.`);
+            }
+
+            const sanitizedFileName = safeFileName(file.originalname);
+            const tempFilePath = join(tempDir, sanitizedFileName);
+
             fs.writeFileSync(tempFilePath, file.buffer);
             savedFiles.push(tempFilePath);
             console.log(`Archivo guardado: ${tempFilePath}`);

@@ -9,10 +9,14 @@ function CargarArchivos() {
     const [loading, setLoading] = useState(false);
 
     const allowedExtensions = ['.xlsx', '.xls'];
+    const   MAX_FILE_SIZE_MB = 5;
+
     const isValidFile = (file) => {
         const fileType = file.type;
         const fileExtension = file.name.split('.').pop().toLowerCase();
+        const fileSizeMB = file.size / (1024*1024);
         return (
+            fileSizeMB <= MAX_FILE_SIZE_MB &&
             (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                 fileType === 'application/vnd.ms-excel') &&
             allowedExtensions.includes(`.${fileExtension}`)
