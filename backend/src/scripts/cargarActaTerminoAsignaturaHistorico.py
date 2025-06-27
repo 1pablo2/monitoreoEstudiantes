@@ -9,7 +9,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 temp_dir = sys.argv[1]
-matching_files = [f for f in os.listdir(temp_dir) if "Acta" in f and "asignatura" in f]
+matching_files = [f for f in os.listdir(temp_dir) if "acta" in f.lower() and "asignatura" in f.lower()]
 
 if len(matching_files) == 0:
     print(f"Error: No se encontró ningún archivo que coincida con 'Acta término asignatura' en {temp_dir}")
