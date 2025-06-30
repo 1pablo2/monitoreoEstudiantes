@@ -102,7 +102,7 @@ function VistaCohorte() {
         <Button
           label="Leyenda"
           icon="pi pi-question-circle"
-          className="p-button-warning p-button-text"
+          className="p-button-warning"
           onClick={() => setMostrarLeyenda(true)}
         />
       </div>
