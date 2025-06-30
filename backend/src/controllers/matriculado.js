@@ -21,16 +21,12 @@ const obtenerCohortes = async (req, res) => {
 
 const obtenerMatriculadosPorCohorte = async (req, res) => {
   try {
-    const { cohorte, periodo, decreto, query } = req.query;
+    const { cohorte, decreto, query } = req.query;
 
     const criterioBusqueda = { where: {} };
 
     if (cohorte) {
       criterioBusqueda.where.anioIngreso = cohorte;
-    }
-
-    if (periodo) {
-      criterioBusqueda.where.semestre = periodo;
     }
 
     if (decreto) {
@@ -56,7 +52,6 @@ const obtenerMatriculadosPorCohorte = async (req, res) => {
     const estados = await MatriculadoHasAsignatura.findAll({
       where: {
         matriculado_anioIngreso: cohorte,
-        matriculado_semestre: periodo,
         matriculado_PlanEstudios_codigo: decreto
       },
       attributes: ['matriculado_rut', 'Asignatura_codAsignatura', 'estado'],

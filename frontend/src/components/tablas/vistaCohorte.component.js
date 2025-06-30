@@ -10,21 +10,19 @@ import { renderEstadoCelda } from "../comunes/renderEstadoCelda";
 import handleClickAsignatura from "../comunes/handleClickAsignatura";
 import { Tooltip } from "primereact/tooltip";
 import { InputText } from "primereact/inputtext";
-
-const periodos = [
-  { label: "Primer Semestre", value: "1" },
-  { label: "Segundo Semestre", value: "2" }
-];
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
+import { PiQuestionBold } from "react-icons/pi";
 
 function VistaCohorte() {
   const [cohorteSeleccionado, setCohorteSeleccionado] = useState(null);
-  const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const [matriculados, setMatriculados] = useState([]);
   const [asignaturas, setAsignaturas] = useState([]);
   const [cohortes, setCohortes] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+  const [mostrarLeyenda, setMostrarLeyenda] = useState(false);
+
   const [visiblePopup, setVisiblePopup] = useState(false);
   const [datosPopup, setDatosPopup] = useState({});
 
@@ -44,12 +42,11 @@ function VistaCohorte() {
 
   useEffect(() => {
     async function cargarDatos() {
-      if (!cohorteSeleccionado || !periodoSeleccionado || !decreto) return;
+      if (!cohorteSeleccionado || !decreto) return;
       setLoading(true);
       try {
         const {asignaturas, matriculados} = await obtenerMatriculadosPorCohorte({
           cohorte: cohorteSeleccionado,
-          periodo: periodoSeleccionado,
           decreto: decreto,
           query: busqueda
         });
@@ -74,7 +71,7 @@ function VistaCohorte() {
     }
     cargarDatos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cohorteSeleccionado, periodoSeleccionado, busqueda, decreto]);
+  }, [cohorteSeleccionado, busqueda, decreto]);
 
 
   return (
@@ -93,18 +90,8 @@ function VistaCohorte() {
               className="w-full md:w-14rem"
             />
           </div>
-          <div>
-            <label htmlFor="periodo">Seleccione periodo:</label>
-            <Dropdown
-              id="periodo"
-              value={periodoSeleccionado}
-              options={periodos}
-              onChange={(e) => setPeriodoSeleccionado(e.value)}
-              placeholder="-- Seleccione --"
-              className="w-full md:w-14rem"
-            />
-          </div>
         </div>
+
         <div className="p-input-icon-left">
           <i className="pi pi-search"/>
             <InputText
@@ -113,6 +100,12 @@ function VistaCohorte() {
               placeholder="Buscar por nombre o RUT"
             />
         </div>
+        <Button
+          icon={<PiQuestionBold size={18} />}
+          label="Leyenda"
+          className="p-button-warning"
+          onClick={() => setMostrarLeyenda(true)}
+        />
       </div>
       {loading ? (
         <p>Cargando datos...</p>
@@ -128,12 +121,13 @@ function VistaCohorte() {
               field={asig.codAsignatura}
               header={
                 <>
-                  <span 
+                  <div 
+                    style={{ writingMode: "vertical-rl", transform: "rotate(180deg)", whiteSpace:"nowrap"}}
                     data-pr-tooltip={asig.nombreAsignatura}
                     data-pr-position="top"
                   >
                 {asig.codAsignatura}
-                </span>
+                </div>
                 <Tooltip target={`[data-pr-tooltip="${asig.nombreAsignatura}"]`}/>
                 </>
               }
@@ -160,6 +154,20 @@ function VistaCohorte() {
       onHide={() => setVisiblePopup(false)}
       data={datosPopup}
     />
+    <Dialog
+      header="Leyenda de símbolos"
+      visible={mostrarLeyenda}
+      onHide={() => setMostrarLeyenda(false)}
+      style={{ width: '25rem' }}
+      modal
+    >
+      <ul>
+        <li><strong>✅</strong> Aprobado</li>
+        <li><strong>❌</strong> Reprobado</li>
+        <li><strong>⏳</strong> Pendiente</li>
+        <li><strong>📘</strong> Cursando</li>
+      </ul>
+    </Dialog>
     </VistaMenu>
   );
 }
