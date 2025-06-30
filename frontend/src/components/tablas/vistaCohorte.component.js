@@ -12,7 +12,6 @@ import { Tooltip } from "primereact/tooltip";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import { PiQuestionBold } from "react-icons/pi";
 
 function VistaCohorte() {
   const [cohorteSeleccionado, setCohorteSeleccionado] = useState(null);
@@ -101,9 +100,9 @@ function VistaCohorte() {
             />
         </div>
         <Button
-          icon={<PiQuestionBold size={18} />}
           label="Leyenda"
-          className="p-button-warning"
+          icon="pi pi-question-circle"
+          className="p-button-warning p-button-text"
           onClick={() => setMostrarLeyenda(true)}
         />
       </div>
