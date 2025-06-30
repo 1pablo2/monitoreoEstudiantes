@@ -12,10 +12,10 @@ export const obtenerCohortes = async () => {
     }
 };
 
-export const obtenerMatriculadosPorCohorte = async ({ cohorte = "", periodo = "", decreto="", query = "" } = {}) => {
+export const obtenerMatriculadosPorCohorte = async ({ cohorte = "", decreto="", query = "" } = {}) => {
   try {
     const response = await axios.get(`${API_URL}/buscar`, {
-      params: { cohorte, periodo, decreto, query },
+      params: { cohorte, decreto, query },
     });
 
     return response.data;

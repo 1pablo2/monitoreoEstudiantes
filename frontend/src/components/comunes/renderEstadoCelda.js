@@ -4,10 +4,10 @@ export const renderEstadoCelda = (rowData, column, onClickAsignatura) => {
   const estado = rowData[column.field];
 
   const texto =
-    estado === 1 ? "Pendiente" :
-    estado === 2 ? "Aprobado" :
-    estado === 3 ? "Reprobado" :
-    estado === 4 ? "Cursando" : "";
+    estado === 1 ? "⏳" :
+    estado === 2 ? "✅" :
+    estado === 3 ? "❌" :
+    estado === 4 ? "📘" : "";
 
   const clase =
     estado === 1 ? "estado-pendiente" :
