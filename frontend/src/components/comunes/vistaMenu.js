@@ -12,9 +12,10 @@ export default function VistaMenu({ children }) {
       {}
       <Button
         icon="pi pi-bars"
+        label="Menú"
         onClick={() => setVisible(true)}
         className="p-button-text p-button-lg"
-        style={{ position: "fixed", top: "1rem", left: "1rem", zIndex: 1001, color: "black" }}
+        style={{ position: "fixed", top: "1rem", left: "1rem", zIndex: 1001, color: "white" }}
       />
 
       {}

@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 header {
@@ -8,8 +11,8 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #17a2b8; /* Fondo celeste */
-  color: white; /* Texto blanco */
+  background-color: #003c58; /* Azul institucional UV */
+  color: white;
   margin-bottom: 10px;
 }
 
@@ -26,40 +29,54 @@ header {
   display: flex;
   float: left;
   justify-content: flex-start;
-  gap: 10px; /* Espacio entre los botones */
+  gap: 10px;
 }
 
 .p-button.p-button-sm {
   padding: 0.4rem 0.6rem;
 }
 
+/* Botones azules UV */
 .p-button.p-button-info {
   margin-right: 10px;
-  color: #ffffff;
-  background: #17a2b8;
-  border: 1px solid #17a2b8;
+  background-color: #00427a;
+  color: white;
+  border: none;
 }
 
 .p-button.p-button-info:enabled:hover {
-  background: #138496;
-  color: #ffffff;
-  border-color: #117a8b;
+  background-color: #003366;
 }
 
+/* Botón de advertencia (mostaza) */
+.p-button.p-button-warning {
+  background-color: #f1c40f;
+  color: black;
+  border: none;
+}
+
+.p-button.p-button-warning:hover {
+  background-color: #d4ac0d;
+}
+
+/* Botón de peligro */
 .p-button.p-button-danger {
-  background: #ffffff;
+  background-color: white;
   border: 1px solid #000000;
+  color: black;
 }
 
 .p-button.p-button-danger:enabled:hover {
-  background: #777777;
+  background-color: #dddddd;
   border-color: #000000;
 }
+
+/* Contenedor superior (dropdowns + buscador) */
 .contenedor-dropdowns-buscador {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: #d1d0d0; /* Fondo gris compartido */
+  background-color: #f9f9f9;
   padding: 10px;
   gap: 5%;
 }
@@ -68,39 +85,40 @@ header {
 .contenedor-buscador {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espacio entre los elementos dentro de los contenedores */
+  gap: 10px;
 }
 
+/* Carga de archivos */
 .upload-container {
   padding: 20px;
   border: 1px solid #ccc;
   margin-top: 20px;
 }
 
+/* Tabla */
 .p-datatable .p-datatable-thead > tr > th {
   font-weight: normal;
-  background-color: #d1d0d0;
+  background-color: #f1f1f1;
 }
 
-/* Fondo celeste claro para el dropdown */
+/* Dropdowns con fondo neutro */
 .p-dropdown {
-  background-color: #e0f7fa !important; /* celeste claro */
+  background-color: #f9f9f9 !important;
 }
 
-/* Fondo celeste claro también para el panel desplegable */
 .p-dropdown-panel {
-  background-color: #e0f7fa;
+  background-color: #f9f9f9;
 }
 
-/* Oscurecer ligeramente el ítem al pasar el cursor */
 .p-dropdown-item {
   transition: background-color 0.2s ease;
 }
 
 .p-dropdown-item:hover {
-  background-color: #b2ebf2; /* tono más oscuro de celeste */
+  background-color: #e6e6e6;
 }
 
+/* Celdas de estado */
 .celda-estado {
   padding: 0.5rem;
   border-radius: 4px;
@@ -108,19 +126,19 @@ header {
 }
 
 .estado-aprobado {
-  background-color: #c8e6c9; /* verde claro */
+  background-color: #d4edda; /* verde suave */
 }
 
 .estado-reprobado {
-  background-color: #ffcdd2; /* rojo claro */
+  background-color: #f8d7da; /* rojo suave */
 }
 
 .estado-cursando {
-  background-color: #e4f153; /* amarillo claro */
+  background-color: #fff3cd; /* amarillo suave */
 }
 
-.estado-pendiente{
-  background-color: #4dd6ec; /* celeste claro*/
+.estado-pendiente {
+  background-color: #d1ecf1; /* celeste suave */
 }
 
 .p-datatable,
@@ -130,17 +148,11 @@ header {
   border-bottom: 1px solid #dee2e6;
 }
 
+
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: none;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #00427a;
 }
