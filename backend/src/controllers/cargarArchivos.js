@@ -87,17 +87,20 @@ const cargarArchivos = (req, res) => {
     const ejecutarScript = (scriptPath, scriptName) => {
         return new Promise((resolve, reject) => {
             exec(`python "${scriptPath}" "${tempDir}"`, (error, stdout, stderr) => {
-                if (stdout) {
-                    console.log(`Salida de ${scriptName} (stdout): ${stdout}`);
-                }
-                if (stderr) {
-                    console.error(`Errores de ${scriptName} (stderr): ${stderr}`);
-                }
+                const salida = {
+                    scriptName,
+                    stdout: stdout?.toString() || '',
+                    stderr: stderr?.toString() || '',
+                    success: !error,
+                    error: error ? error.message : null
+                };
+
                 if (error) {
                     console.error(`Error ejecutando ${scriptName}: ${error.message}`);
-                    return reject({ scriptName, error: error.message, success: false });
+                    return reject(salida);
                 }
-                resolve({ scriptName, stdout, success: true });
+
+                resolve(salida);
             });
         });
     };
