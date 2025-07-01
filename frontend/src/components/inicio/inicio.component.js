@@ -30,31 +30,35 @@ function Inicio() {
     navigate(`/${tipo}`);
   };
 
+
   return (
     <div className="inicio-container">
       <h2>Seleccione un Decreto</h2>
-      <Dropdown
-        value={decreto}
-        options={decretos}
-        onChange={(e) => setDecreto(e.value)}
-        placeholder="-- Seleccione un decreto --"
-        className="w-full md:w-20rem mb-4"
-      />
-      <div className="botones-vistas">
+      <div className="flex flex-wrap align-items-center gap-3 mb-4">
+        <Dropdown
+          value={decreto}
+          options={decretos}
+          onChange={(e) => setDecreto(e.value)}
+          placeholder="-- Seleccione un decreto --"
+          className="w-full md:w-20rem"
+        />
         <Button
           label="Ver por Cohorte"
           onClick={() => irAVista("cohorte")}
           disabled={!decreto}
-          className="mr-2"
+          className="p-button-info"
         />
         <Button
           label="Ver por Asignatura"
           onClick={() => irAVista("asignatura")}
           disabled={!decreto}
+          className="p-button-info"
         />
       </div>
-      <Button 
-        label="Cargar Archivos" onClick={() => navigate("/cargar-archivos")}
+      <Button
+        label="Cargar Archivos"
+        onClick={() => navigate("/cargar-archivos")}
+        className="p-button-secondary"
       />
     </div>
   );
