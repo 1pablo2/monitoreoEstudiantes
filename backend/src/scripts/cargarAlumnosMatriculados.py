@@ -2,7 +2,7 @@ import pandas as pd
 import unicodedata
 import sys
 import os
-from db_utils import obtener_conexion, ejecutar_consulta_unica, insertar_datos, cerrar_conexion
+from db_utils import obtener_conexion, ejecutar_consulta_unica, cerrar_conexion
 
 sys.stdout.reconfigure(line_buffering=True)
 
@@ -53,14 +53,10 @@ for file_name in matching_files:
     try:
         connection = obtener_conexion()
         cursor = connection.cursor()
-    except Exception as e:
-        print(f"Error conectando a la base de datos: {e}")
-        sys.exit(1)
 
-    consulta_plan_estudios = """
-    SELECT codigo FROM planestudios WHERE codigoSIES = %s AND glosa = %s
-    """
-    try:
+        consulta_plan_estudios = """
+        SELECT codigo FROM planestudios WHERE codigoSIES = %s AND glosa = %s
+        """
         resultado = ejecutar_consulta_unica(cursor, consulta_plan_estudios, (codigo_sies, plan_estudios_glosa))
         plan_codigo = resultado[0] if resultado else None
 
@@ -73,43 +69,64 @@ for file_name in matching_files:
         DELETE FROM matriculado
         WHERE anioMatricula = %s AND semestre = %s AND PlanEstudios_codigo = %s
         """
-        try:
-            cursor.execute(delete_query, (anio_matricula, semestre, plan_codigo))
-            print(f"Se eliminaron los registros anteriores para año matricula {anio_matricula}, semestre {semestre}, decreto {plan_codigo}")
-        except Exception as e:
-            print(f"Error al eliminar registros antiguos: {e}")
-            cerrar_conexion(connection, cursor)
-            sys.exit(1)
+        cursor.execute(delete_query, (anio_matricula, semestre, plan_codigo))
+        print(f"Se eliminaron los registros anteriores para año matrícula {anio_matricula}, semestre {semestre}, decreto {plan_codigo}")
 
     except Exception as e:
-        print(f"Error ejecutando la consulta del plan de estudios: {e}")
+        print(f"Error conectando a la base de datos: {e}")
         cerrar_conexion(connection, cursor)
         sys.exit(1)
 
-    insert_query = """
-    INSERT INTO matriculado (rut, dv, nombreCompleto, anioIngreso, semestre, PlanEstudios_codigo, anioMatricula)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """
-
-    def procesar_fila(row):
-        try:
-            rut_alumno = row['Rut Alumno'].replace(" ", "").split('-')
-            rut = rut_alumno[0]
-            dv = rut_alumno[1]
-            nombre_completo = row['Nombre']
-            anio_ingreso = row['Año ingreso']
-
-            parametros = (rut, dv, nombre_completo, anio_ingreso, semestre, plan_codigo, anio_matricula)
-            insertar_datos(cursor, insert_query, parametros)
-        except Exception as e:
-            print(f"Error insertando datos del alumno {row['Nombre']}: {e}")
-
     try:
-        df.apply(procesar_fila, axis=1)
-        connection.commit()
-        print("Datos insertados exitosamente en la tabla matriculado.")
+        insert_query = """
+        INSERT INTO matriculado (rut, dv, nombreCompleto, anioIngreso, semestre, PlanEstudios_codigo, anioMatricula)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        batch_data = []
+
+        for _, row in df.iterrows():
+            try:
+                rut_alumno = row['Rut Alumno'].replace(" ", "").split('-')
+                rut = rut_alumno[0]
+                dv = rut_alumno[1]
+                nombre_completo = row['Nombre']
+                anio_ingreso = row['Año ingreso']
+
+                parametros = (rut, dv, nombre_completo, anio_ingreso, semestre, plan_codigo, anio_matricula)
+                batch_data.append(parametros)
+            except Exception as e:
+                print(f"Error procesando fila: {e}")
+
+        if batch_data:
+            cursor.executemany(insert_query, batch_data)
+            connection.commit()
+            print(f"{len(batch_data)} registros insertados exitosamente en la tabla matriculado.")
+        else:
+            print("Advertencia: No se encontraron registros válidos para insertar.")
+
     except Exception as e:
         print(f"Error insertando datos en la base de datos: {e}")
         connection.rollback()
     finally:
         cerrar_conexion(connection, cursor)
+
+if semestre == "2":
+    try:
+        cursor.execute("""
+            SELECT COUNT(*) FROM matriculado
+            WHERE anioMatricula = %s AND semestre = '1' AND PlanEstudios_codigo = %s
+        """, (anio_matricula, plan_codigo))
+        conteo_semestre_1 = cursor.fetchone()[0]
+
+        if conteo_semestre_1 == 0:
+            print(f"No hay datos del semestre 1 para el año {anio_matricula}. Se duplicarán los datos del semestre 2.")
+            datos_sem1 = [
+                (rut, dv, nombre, anio_ing, '1', plan_codigo, anio_matricula)
+                for (rut, dv, nombre, anio_ing, _, _, _) in batch_data
+            ]
+            cursor.executemany(insert_query, datos_sem1)
+            connection.commit()
+            print(f"Se insertaron {len(datos_sem1)} registros duplicados para el semestre 1.")
+    except Exception as e:
+        print(f"Error al insertar duplicados del semestre 1: {e}")
+        connection.rollback()
