@@ -61,8 +61,10 @@ const handleUpload = async () => {
         }
 
         data.exitosos.forEach(({ scriptName, stdout }) => {
-            if (stdout.includes('no existe en la tabla matriculado')) {
-                mensajes.push(`⚠️ Advertencia en ${scriptName}: algunos RUTs no figuran como matriculados. Cargue el archivo con los alumnos matriculados antes de cargar el acta de término de asignatura`);
+            const anioMatch = stdout.match(/RUTS_NO_ENCONTRADOS_ANIOS:([0-9,]+)/);
+            if (anioMatch) {
+                const anios = anioMatch[1].split(',').join(', ');
+                mensajes.push(`⚠️ Advertencia en ${scriptName}: algunos RUTs no figuran como matriculados para el(los) año(s) ${anios}. Cargue el archivo con los alumnos matriculados antes de cargar el acta de término de asignatura`);
             }
         });
 
