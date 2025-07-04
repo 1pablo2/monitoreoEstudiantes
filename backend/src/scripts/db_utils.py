@@ -8,10 +8,6 @@ def obtener_conexion():
         database='monitoreoestudiantesbd'
     )
 
-def ejecutar_consulta(cursor, query, parametros=()):
-    cursor.execute(query, parametros)
-    return cursor.fetchall()
-
 def ejecutar_consulta_unica(cursor, query, parametros=()):
     cursor.execute(query, parametros)
     return cursor.fetchone()
