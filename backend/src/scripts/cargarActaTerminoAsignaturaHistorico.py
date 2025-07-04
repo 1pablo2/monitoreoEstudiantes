@@ -94,12 +94,15 @@ for file_name in matching_files:
 
     try:
         consulta_matriculados = """
-            SELECT rut, anioIngreso, semestre FROM matriculado
-            WHERE PlanEstudios_codigo = %s
+            SELECT rut, anioIngreso, semestre, anioMatricula FROM matriculado
+            WHERE PlanEstudios_codigo = %s AND anioMatricula = %s
         """
-        cursor.execute(consulta_matriculados, (plan_estudios_codigo,))
+        cursor.execute(consulta_matriculados, (plan_estudios_codigo, anio))
         resultado = cursor.fetchall()
-        matriculados_db = {str(rut): (anio, semestre) for rut, anio, semestre in resultado}
+        matriculados_db = {
+            str(rut): (anio_ing, semestre_ing, anio_matricula) 
+            for rut, anio_ing, semestre_ing, anio_matricula in resultado
+            }
     except Exception as e:
         print(f"Error al obtener alumnos matriculados: {e}")
         cerrar_conexion(connection, cursor)
@@ -107,13 +110,13 @@ for file_name in matching_files:
 
     avance_lote = []
     asignatura_lote = []
-
+    anios_faltantes = set()
     for _, row in df.iterrows():
         try:
             rut_raw = row[rut_col]
             rut = str(rut_raw).replace(" ", "").split('-')[0]
             if rut in matriculados_db:
-                anio_ingreso, semestre_ingreso = matriculados_db[rut]
+                anio_ingreso, semestre_ingreso, anio_matricula= matriculados_db[rut]
 
                 avance_lote.append((
                     anio, semestre, asignatura_codigo, plan_estudios_codigo,
@@ -133,7 +136,7 @@ for file_name in matching_files:
                     asignatura_codigo, estado
                 ))
             else:
-                print(f"El alumno con RUT {rut} no existe en la tabla matriculado.")
+                anios_faltantes.add(anio)
         except Exception as e:
             print(f"Error procesando fila: {e}")
 
@@ -163,3 +166,6 @@ for file_name in matching_files:
         connection.rollback()
     finally:
         cerrar_conexion(connection, cursor)
+    
+    if anios_faltantes:
+        print(f"RUTS_NO_ENCONTRADOS_ANIOS:{','.join(sorted(anios_faltantes))}")
