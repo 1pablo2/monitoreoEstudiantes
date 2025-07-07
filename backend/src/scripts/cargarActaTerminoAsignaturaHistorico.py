@@ -127,9 +127,9 @@ for file_name in matching_files:
                 try:
                     nota = row[nota_final_col]
                     calificacion = float(nota.strip()) if isinstance(nota, str) else float(nota)
-                    estado = 2 if calificacion >= 4.0 else 3
+                    estado = 1 if calificacion >= 4.0 else 2
                 except:
-                    estado = 1
+                    estado = 3
 
                 asignatura_lote.append((
                     rut, anio_ingreso, semestre_ingreso, anio, plan_estudios_codigo,
