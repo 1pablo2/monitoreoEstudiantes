@@ -30,6 +30,26 @@ function VistaAsignatura() {
     { label: "Segundo Semestre", value: "2" }
   ];
 
+  const filtrarAsignaturas = (option, filter) => {
+    if (!filter) return true;
+
+    const normalizar = (texto) =>
+      texto
+        ?.toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+    const filtro = normalizar(filter);
+    const codigo = normalizar(option.codAsignatura);
+    const nombre = normalizar(option.nombreAsignatura);
+
+    return (
+      codigo?.includes(filtro) || nombre?.includes(filtro)
+    );
+  };
+
+
   useEffect(() => {
     async function cargarAsignaturas() {
       if (!decreto) return;
@@ -97,6 +117,9 @@ function VistaAsignatura() {
                 onChange={(e) => setAsignaturasSeleccionadas(e.value)}
                 className="w-full md:w-20rem"
                 display="chip"
+                filter
+                filterBy="etiqueta"
+                filterFunction={filtrarAsignaturas}
               />
             </div>
             <div>

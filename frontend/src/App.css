@@ -148,6 +148,20 @@ header {
   border-bottom: 1px solid #dee2e6;
 }
 
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+  margin-bottom: 4px;
+  white-space: normal;
+}
+
+.p-multiselect.p-multiselect-chip .p-multiselect-items-container {
+  flex-wrap: wrap !important;
+}
+
+.p-multiselect.p-multiselect-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
 .App-header {
   display: none;
