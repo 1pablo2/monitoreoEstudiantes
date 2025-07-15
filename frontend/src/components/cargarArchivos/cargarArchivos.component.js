@@ -62,7 +62,6 @@ const handleUpload = async () => {
     setLoading(true);
     try {
         const data = await uploadFiles(files);
-        const mensajes = [];
         const nombresAmigables = {
             "Alumnos Matriculados": "Carga de alumnos matriculados",
             "Acta de Término": "Carga de actas de término de asignatura"
