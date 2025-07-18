@@ -17,6 +17,27 @@ if len(matching_files) == 0:
     print(f"Error: No se encontró ningún archivo que coincida con 'Alumnos matriculados' en {temp_dir}")
     sys.exit(1)
 
+def duplicar_a_semestre1_si_no_existe(cursor, anio_matricula, plan_codigo, batch_data, insert_query):
+    try:
+        cursor.execute("""
+            SELECT COUNT(*) FROM matriculado
+            WHERE anioMatricula = %s AND semestre = '1' AND PlanEstudios_codigo = %s
+        """, (anio_matricula, plan_codigo))
+        conteo_semestre_1 = cursor.fetchone()[0]
+
+        if conteo_semestre_1 == 0:
+            print(f"No hay datos del semestre 1 para el año {anio_matricula}. Se duplicarán los datos del semestre 2.")
+            datos_sem1 = [
+                (rut, dv, nombre, anio_ing, '1', plan_codigo, anio_matricula)
+                for (rut, dv, nombre, anio_ing, _, _, _) in batch_data
+            ]
+            cursor.executemany(insert_query, datos_sem1)
+            print(f"Se insertaron {len(datos_sem1)} registros duplicados para el semestre 1.")
+    except Exception as e:
+        print(f"Error al insertar duplicados del semestre 1: {e}")
+        raise
+
+
 for file_name in matching_files:
     file_path = os.path.join(temp_dir, file_name)
 
@@ -104,29 +125,12 @@ for file_name in matching_files:
         else:
             print("Advertencia: No se encontraron registros válidos para insertar.")
 
+        if semestre == "2":
+            duplicar_a_semestre1_si_no_existe(cursor, anio_matricula, plan_codigo, batch_data, insert_query)
+            connection.commit()
+
     except Exception as e:
         print(f"Error insertando datos en la base de datos: {e}")
         connection.rollback()
     finally:
         cerrar_conexion(connection, cursor)
-
-if semestre == "2":
-    try:
-        cursor.execute("""
-            SELECT COUNT(*) FROM matriculado
-            WHERE anioMatricula = %s AND semestre = '1' AND PlanEstudios_codigo = %s
-        """, (anio_matricula, plan_codigo))
-        conteo_semestre_1 = cursor.fetchone()[0]
-
-        if conteo_semestre_1 == 0:
-            print(f"No hay datos del semestre 1 para el año {anio_matricula}. Se duplicarán los datos del semestre 2.")
-            datos_sem1 = [
-                (rut, dv, nombre, anio_ing, '1', plan_codigo, anio_matricula)
-                for (rut, dv, nombre, anio_ing, _, _, _) in batch_data
-            ]
-            cursor.executemany(insert_query, datos_sem1)
-            connection.commit()
-            print(f"Se insertaron {len(datos_sem1)} registros duplicados para el semestre 1.")
-    except Exception as e:
-        print(f"Error al insertar duplicados del semestre 1: {e}")
-        connection.rollback()
