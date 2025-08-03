@@ -1,3 +1,4 @@
+SET NAMES utf8mb4
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `matriculado_has_asignatura`;
@@ -11,7 +12,7 @@ CREATE TABLE `planestudios` (
   `glosa` varchar(90) NOT NULL,
   `codigoSIES` varchar(10) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `asignatura` (
   `codAsignatura` varchar(12) NOT NULL,
@@ -21,7 +22,7 @@ CREATE TABLE `asignatura` (
   PRIMARY KEY (`codAsignatura`,`PlanEstudios_codigo`),
   KEY `fk_Asignatura_PlanEstudios1_idx` (`PlanEstudios_codigo`),
   CONSTRAINT `fk_Asignatura_PlanEstudios1` FOREIGN KEY (`PlanEstudios_codigo`) REFERENCES `planestudios` (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `matriculado` (
   `rut` varchar(8) NOT NULL,
@@ -34,7 +35,7 @@ CREATE TABLE `matriculado` (
   PRIMARY KEY (`PlanEstudios_codigo`,`rut`,`semestre`,`anioIngreso`,`anioMatricula`),
   KEY `fk_Matriculado_PlanEstudios_idx` (`PlanEstudios_codigo`),
   CONSTRAINT `fk_Matriculado_PlanEstudios` FOREIGN KEY (`PlanEstudios_codigo`) REFERENCES `planestudios` (`codigo`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `avancecurricular` (
   `anio` char(4) NOT NULL,
@@ -54,7 +55,7 @@ CREATE TABLE `avancecurricular` (
   CONSTRAINT `fk_avancecurricular_asignatura1` FOREIGN KEY (`asignatura_codAsignatura`, `asignatura_PlanEstudios_codigo`) REFERENCES `asignatura` (`codAsignatura`, `PlanEstudios_codigo`) ON DELETE CASCADE,
   CONSTRAINT `fk_avancecurricular_matriculado1` FOREIGN KEY (`matriculado_PlanEstudios_codigo`, `matriculado_rut`, `matriculado_semestre`, `matriculado_anioIngreso`, `matriculado_anioMatricula`) REFERENCES `matriculado` (`PlanEstudios_codigo`, `rut`, `semestre`, `anioIngreso`, `anioMatricula`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_AvanceCurricular_PlanEstudios` FOREIGN KEY (`PlanEstudios_codigo`) REFERENCES `planestudios` (`codigo`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `matriculado_has_asignatura` (
   `estado` tinyint NOT NULL DEFAULT '1',
@@ -70,7 +71,7 @@ CREATE TABLE `matriculado_has_asignatura` (
   KEY `fk_matriculado_has_asignatura_matriculado1` (`matriculado_PlanEstudios_codigo`,`matriculado_rut`,`matriculado_semestre`,`matriculado_anioIngreso`,`matriculado_anioMatricula`),
   CONSTRAINT `fk_Matriculado_has_Asignatura_Asignatura1` FOREIGN KEY (`Asignatura_codAsignatura`) REFERENCES `asignatura` (`codAsignatura`),
   CONSTRAINT `fk_matriculado_has_asignatura_matriculado1` FOREIGN KEY (`matriculado_PlanEstudios_codigo`, `matriculado_rut`, `matriculado_semestre`, `matriculado_anioIngreso`, `matriculado_anioMatricula`) REFERENCES `matriculado` (`PlanEstudios_codigo`, `rut`, `semestre`, `anioIngreso`, `anioMatricula`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Insertar datos
 INSERT INTO `planestudios` VALUES 
