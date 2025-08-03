@@ -1,4 +1,5 @@
 import React from "react";
+import "./renderEstadoCelda.css";
 
 export const renderEstadoCelda = (rowData, column, onClickAsignatura) => {
   const estado = rowData[column.field];

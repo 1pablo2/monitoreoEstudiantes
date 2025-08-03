@@ -11,6 +11,8 @@ import handleClickAsignatura from "../comunes/handleClickAsignatura";
 import { Tooltip } from "primereact/tooltip";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
+import "./vistaAsignatura.css";
+import BotonLeyenda from "../comunes/botonLeyenda";
 
 function VistaAsignatura() {
   const [asignaturas, setAsignaturas] = useState([]);
@@ -103,48 +105,50 @@ function VistaAsignatura() {
 
   return (
     <VistaMenu>
-      <div>
-        <div className="contenedor-dropdowns-buscador">
-          <div className="contenedor-dropdowns">
-            <div>
-              <label htmlFor="asignatura">Seleccione asignaturas:</label>
-              <MultiSelect
-                id="asignatura"
-                value={asignaturasSeleccionadas}
-                options={asignaturas}
-                optionLabel="etiqueta"
-                placeholder="-- Seleccione --"
-                onChange={(e) => setAsignaturasSeleccionadas(e.value)}
-                className="w-full md:w-20rem"
-                display="chip"
-                filter
-                filterBy="etiqueta"
-                filterFunction={filtrarAsignaturas}
-              />
-            </div>
-            <div>
-              <label htmlFor="periodo">Seleccione periodo:</label>
-              <Dropdown
-                id="periodo"
-                value={periodoSeleccionado}
-                options={periodos}
-                onChange={(e) => setPeriodoSeleccionado(e.value)}
-                placeholder="-- Seleccione --"
-                className="w-full md:w-14rem"
-              />
-            </div>
+      <div className="vista-asignatura-container">
+        <div className="filtros-asignatura">
+          <div className="filtro-dropdowns">
+            <label htmlFor="asignatura">Seleccione asignaturas:</label>
+            <MultiSelect
+              id="asignatura"
+              value={asignaturasSeleccionadas}
+              options={asignaturas}
+              optionLabel="etiqueta"
+              placeholder="-- Seleccione --"
+              onChange={(e) => setAsignaturasSeleccionadas(e.value)}
+              className="w-full md:w-20rem"
+              display="chip"
+              filter
+              filterBy="etiqueta"
+              filterFunction={filtrarAsignaturas}
+            />
           </div>
-
-          <div className="mb-3">
-            <span className="p-input-icon-left">
-              <i className="pi pi-search" />
-              <InputText
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-                placeholder="Buscar por nombre o RUT"
-                className="w-full"
-              />
-            </span>
+          <div className="filtro-dropdown">
+            <label htmlFor="periodo">Seleccione periodo:</label>
+            <Dropdown
+              id="periodo"
+              value={periodoSeleccionado}
+              options={periodos}
+              onChange={(e) => setPeriodoSeleccionado(e.value)}
+              placeholder="-- Seleccione --"
+              className="w-full md:w-14rem"
+            />
+          </div>
+          
+          <div className="busqueda-con-leyenda">
+            <div className="buscador-asignatura">
+              <label htmlFor="busqueda">Busqueda:</label>
+              <span className="p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
+                  placeholder="Buscar por nombre o RUT"
+                  className="w-full"
+                />
+              </span> 
+            </div>
+            <BotonLeyenda/>
           </div>
         </div>
 
