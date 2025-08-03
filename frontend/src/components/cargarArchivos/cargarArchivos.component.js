@@ -63,8 +63,8 @@ const handleUpload = async () => {
     try {
         const data = await uploadFiles(files);
         const nombresAmigables = {
-            "Alumnos Matriculados": "Carga de alumnos matriculados",
-            "Acta de Término": "Carga de actas de término de asignatura"
+            "Alumnos Matriculados": "carga de alumnos matriculados",
+            "Acta de Término": "carga de actas de término de asignatura"
         };
         if (data.exitosos.length > 0) {
             mostrarNotificacion('success', 'Operación completada', data.exitosos.length === 1
