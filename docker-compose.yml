@@ -2,33 +2,38 @@ services:
   backend:
     build: ./backend
     container_name: segpreg-backend
-    ports:
-      - "8000:8000"
-    networks:
-      - red_privada
-    volumes:
-      - ./backend:/app
+    environment:
+      NODE_ENV: development
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: monitoreoestudiantesbd
+      DB_PORT: 3306
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=1234
-      - DB_NAME=monitoreoestudiantesbd
-      - NODE_ENV=development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks: [red_privada]
+ 
   frontend:
     build: ./frontend
-    environment:
-      - REACT_APP_API_URL=http://localhost:8000/
     container_name: segpreg-frontend
+    environment:
+      REACT_APP_API_URL: "http://localhost:8000/"
+    depends_on: [backend]
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     stdin_open: true
     tty: true
-  
+    networks: [red_privada]
+
   db:
     image: mysql:8.0
     container_name: segpreg-db
@@ -53,8 +58,5 @@ volumes:
   db_data:
 
 networks:
-  red_proxy:
-    external:
-      name: nginx-proxy
   red_privada:
     driver: bridge
