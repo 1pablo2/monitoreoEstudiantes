@@ -1,0 +1,63 @@
+/* Swiss 721 BT - Regular */
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('./Swis721BT.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Swiss 721 BT - Bold */
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('./Swis721BT bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Swiss 721 BT - Italic */
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('./Swis721BT italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Swiss 721 BT - Bold Italic */
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('./Swis721BT bold italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Swiss 721 BT Condensed - Regular */
+@font-face {
+  font-family: 'Swiss721BT-CN';
+  src: url('./Swis721BT CN.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Swiss 721 BT Condensed - Bold */
+@font-face {
+  font-family: 'Swiss721BT-CN';
+  src: url('./Swis721BT CN bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Swiss 721 BT Condensed - Italic */
+@font-face {
+  font-family: 'Swiss721BT-CN';
+  src: url('./Swis721BT CN italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Swiss 721 BT Condensed - Bold Italic */
+@font-face {
+  font-family: 'Swiss721BT-CN';
+  src: url('./Swis721BT CN bold italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}

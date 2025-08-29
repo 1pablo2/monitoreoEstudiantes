@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   padding: 20px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Swiss721BT', sans-serif;
   background-color: #ffffff;
   color: #000000;
 }
@@ -11,7 +11,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #003c58; /* Azul institucional UV */
+  background-color: #003c58;
   color: white;
   margin-bottom: 10px;
 }
@@ -19,6 +19,10 @@ header {
 .App-header h1 {
   font-size: 24px;
   margin: 0;
+}
+
+body {
+  font-family: 'Swiss721BT', sans-serif;
 }
 
 .ultima-actualizacion {
@@ -36,7 +40,6 @@ header {
   padding: 0.4rem 0.6rem;
 }
 
-/* Botones azules UV */
 .p-button.p-button-info {
   margin-right: 10px;
   background-color: #00427a;
@@ -48,7 +51,6 @@ header {
   background-color: #003366;
 }
 
-/* Botón de advertencia (mostaza) */
 .p-button.p-button-warning {
   background-color: #f1c40f;
   color: black;
@@ -59,7 +61,6 @@ header {
   background-color: #d4ac0d;
 }
 
-/* Botón de peligro */
 .p-button.p-button-danger {
   background-color: white;
   border: 1px solid #000000;
@@ -71,37 +72,11 @@ header {
   border-color: #000000;
 }
 
-/* Contenedor superior (dropdowns + buscador) */
-.contenedor-dropdowns-buscador {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #f9f9f9;
-  padding: 10px;
-  gap: 5%;
-}
-
-.contenedor-dropdowns,
-.contenedor-buscador {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Carga de archivos */
-.upload-container {
-  padding: 20px;
-  border: 1px solid #ccc;
-  margin-top: 20px;
-}
-
-/* Tabla */
 .p-datatable .p-datatable-thead > tr > th {
   font-weight: normal;
   background-color: #f1f1f1;
 }
 
-/* Dropdowns con fondo neutro */
 .p-dropdown {
   background-color: #f9f9f9 !important;
 }
@@ -118,28 +93,6 @@ header {
   background-color: #e6e6e6;
 }
 
-/* Celdas de estado */
-.celda-estado {
-  padding: 0.5rem;
-  border-radius: 4px;
-  text-align: center;
-}
-
-.estado-aprobado {
-  background-color: #d4edda; /* verde suave */
-}
-
-.estado-reprobado {
-  background-color: #f8d7da; /* rojo suave */
-}
-
-.estado-cursando {
-  background-color: #fff3cd; /* amarillo suave */
-}
-
-.estado-pendiente {
-  background-color: #d1ecf1; /* celeste suave */
-}
 
 .p-datatable,
 .p-dataview {
@@ -148,6 +101,11 @@ header {
   border-bottom: 1px solid #dee2e6;
 }
 
+
+table, .p-datatable, .p-datatable .p-column-header, .p-datatable .p-cell {
+  font-family: 'Swiss721BT', sans-serif;
+  font-weight: 400;
+}
 
 .App-header {
   display: none;

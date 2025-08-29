@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
+import "./vistaMenu.css";
 
 export default function VistaMenu({ children }) {
   const [visible, setVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      {}
       <Button
         icon="pi pi-bars"
         label="Menú"
         onClick={() => setVisible(true)}
-        className="p-button-text p-button-lg"
-        style={{ position: "fixed", top: "1rem", left: "1rem", zIndex: 1001, color: "white" }}
+        className={`p-button-text p-button-lg boton-menu ${scrolled ? "scrolled" : ""}`}
       />
 
-      {}
       <Sidebar visible={visible} onHide={() => setVisible(false)} position="left">
         <h3>Menú</h3>
         <Button label="Inicio" icon="pi pi-home" className="p-button-text" onClick={() => navigate("/")} />
@@ -27,7 +35,6 @@ export default function VistaMenu({ children }) {
         <Button label="Cargar Archivos" icon="pi pi-upload" className="p-button-text" onClick={() => navigate("/cargar-archivos")} />
       </Sidebar>
 
-      {}
       <div style={{ paddingTop: "4rem" }}>{children}</div>
     </>
   );

@@ -1,0 +1,55 @@
+.vista-cohorte-container {
+  padding: 1rem;
+  text-align: left;
+}
+
+.filtros-cohorte{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filtro-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.buscador-cohorte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.busqueda-con-leyenda {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.buscador-cohorte .p-input-icon-left {
+  width: 100%;
+}
+
+.buscador-cohorte .p-input-icon-left > i {
+  margin-left: 0.75rem;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.buscador-cohorte .p-input-icon-left input {
+  padding-left: 2rem;
+}
+
+.p-column-header-content > div[style*="writing-mode"] {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}

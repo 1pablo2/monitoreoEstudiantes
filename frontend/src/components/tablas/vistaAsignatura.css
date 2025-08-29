@@ -1,0 +1,94 @@
+.vista-asignatura-container {
+  padding: 1rem;
+  text-align: left;
+}
+
+.filtros-asignatura {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filtro-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.p-multiselect {
+  max-width: 100%;
+  min-width: 250px;
+  overflow-x: auto;
+  white-space: normal;
+}
+
+.p-multiselect.p-multiselect-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 100%;
+  overflow-y: auto;
+}
+
+.p-multiselect-token {
+  white-space: normal;
+  margin-bottom: 4px;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.buscador-asignatura {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.busqueda-con-leyenda {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.boton-leyenda {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.busqueda-con-leyenda .p-input-icon-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.buscador-asignatura .p-input-icon-left {
+  width: 100%;
+}
+
+.buscador-asignatura .p-input-icon-left > i {
+  margin-left: 0.75rem;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.buscador-asignatura .p-input-icon-left input{
+  padding-left: 2rem;
+}
+
+.p-datatable {
+  margin-top: 1rem;
+}
+
+.vertical-header-tooltip {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  max-height: 150px;
+}

@@ -40,15 +40,26 @@ const obtenerMatriculadosPorCohorte = async (req, res) => {
       ];
     }
 
-    const matriculados = await Matriculado.findAll({
+    const todosMatriculados = await Matriculado.findAll({
       ...criterioBusqueda,
-      raw: true});
+      raw: true
+    });
+
+    const agrupadosPorRut = {};
+    todosMatriculados.forEach(m => {
+      if (!agrupadosPorRut[m.rut]) {
+        agrupadosPorRut[m.rut] = m;
+      }
+    });
+
+    const matriculadosUnicos = Object.values(agrupadosPorRut);
 
     const asignaturas = await Asignatura.findAll({
       where: { PlanEstudios_codigo: decreto },
       attributes: ['codAsignatura', 'nombreAsignatura', 'prerrequisitos'],
       order: [['codAsignatura', 'ASC']]
     });
+
     const estados = await MatriculadoHasAsignatura.findAll({
       where: {
         matriculado_anioIngreso: cohorte,
@@ -59,16 +70,18 @@ const obtenerMatriculadosPorCohorte = async (req, res) => {
     });
 
     const estadosPorRut = {};
-    estados.forEach(e => {
-      if (!estadosPorRut[e.matriculado_rut]) {
-        estadosPorRut[e.matriculado_rut] = {};
+    estados.forEach(({ matriculado_rut, Asignatura_codAsignatura, estado }) => {
+      if (!estadosPorRut[matriculado_rut]) {
+        estadosPorRut[matriculado_rut] = {};
       }
-      estadosPorRut[e.matriculado_rut][e.Asignatura_codAsignatura] = e.estado;
+
+      const estadoAnterior = estadosPorRut[matriculado_rut][Asignatura_codAsignatura];
+      estadosPorRut[matriculado_rut][Asignatura_codAsignatura] =
+        estadoAnterior === undefined ? estado : Math.min(estadoAnterior, estado);
     });
 
-    const matriculadosConEstados = matriculados.map(m => {
+    const matriculadosConEstados = matriculadosUnicos.map(m => {
       const estadosMatriculado = estadosPorRut[m.rut] || {};
-
       asignaturas.forEach(asig => {
         m[asig.codAsignatura] = estadosMatriculado[asig.codAsignatura] ?? null;
       });

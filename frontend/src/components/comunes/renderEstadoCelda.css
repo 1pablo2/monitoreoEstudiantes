@@ -1,0 +1,21 @@
+.celda-estado {
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.estado-aprobado {
+  background-color: #d4edda;
+}
+
+.estado-reprobado {
+  background-color: #f8d7da;
+}
+
+.estado-cursando {
+  background-color: #fff3cd;
+}
+
+.estado-pendiente {
+  background-color: #d1ecf1;
+}
