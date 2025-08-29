@@ -1,20 +1,10 @@
 FROM node:20-slim
-
 LABEL author="Pablo Molina <pablo.molina@alumnos.uv.cl>"
-
-# Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de dependencias
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json ./
+RUN npm ci
 
-# Instalar dependencias
-RUN npm install
-
-# Copiar el resto del código
 COPY . .
-
 EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD ["npm","start"]
